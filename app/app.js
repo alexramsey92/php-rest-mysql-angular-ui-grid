@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute']);
+var app = angular.module('myApp', ['ngRoute' , 'ngTouch', 'ui.grid']);
 app.factory("services", ['$http', function($http) {
   var serviceBase = 'services/'
     var obj = {};
@@ -66,6 +66,12 @@ app.controller('editCtrl', function ($scope, $rootScope, $location, $routeParams
     };
 });
 
+app.controller('uiGridCtrl', function ($scope, services) {
+    services.getCustomers().then(function(data){
+        $scope.customers = data.data;
+    });
+});
+
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -85,9 +91,15 @@ app.config(['$routeProvider',
           }
         }
       })
+      .when('/uigrid', {
+          templateUrl : 'partials/uigrid.html',
+          controller  : 'uiGridCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
+
+      //$locationProvider.html5Mode(true);
 }]);
 app.run(['$location', '$rootScope', function($location, $rootScope) {
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {

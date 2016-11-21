@@ -5,7 +5,7 @@
 	
 		public $data = "";
 		
-		const DB_SERVER = "127.0.0.1";
+		const DB_SERVER = "localhost:3307";
 		const DB_USER = "root";
 		const DB_PASSWORD = "";
 		const DB = "angularcode_customer";

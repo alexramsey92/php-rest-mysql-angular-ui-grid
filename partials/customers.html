@@ -1,5 +1,5 @@
  <div class="row">
-    <div class="col-md-12" ng-show="customers.length > 0">
+    <div class="col-md-12">
     
     <nav class= "navbar navbar-default" role= "navigation" >
     <div class= "navbar-header" >
@@ -14,16 +14,49 @@
         <th>City&nbsp;</th>
         <th>Country&nbsp;</th>
         <th>Action&nbsp;</th>
+
         </thead>
-        <tbody>
-            <tr ng-repeat="data in customers">
-                <td>{{data.customerName}}</td>
-                <td>{{data.email}}</td>
-                <td>{{data.address}}</td>
-                <td>{{data.city}}</td>
-                <td>{{data.country}}</td>
-                <td><a href="#/edit-customer/{{data.customerNumber}}" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Edit Customer</a></td>
+        <tbody ng-show="customers.length > 0">
+            <tr ng-repeat="customer in customers">
+
+                    <!-- replace with a directive at some point -->
+
+                    <td ng-hide="customer.isEditing">{{customer.customerName}}</td>
+                    <td ng-hide="customer.isEditing">{{customer.email}}</td>
+                    <td ng-hide="customer.isEditing">{{customer.address}}</td>
+                    <td ng-hide="customer.isEditing">{{customer.city}}</td>
+                    <td ng-hide="customer.isEditing">{{customer.country}}</td>
+                    <td ng-hide="customer.isEditing">
+                        <button ng-click="customer.isEditing=true" class="btn btn-link">Edit</button>
+                        <button ng-click="deleteCustomer(customer, $index)" class="btn btn-link">Delete</button>
+                    </td>
+
+                    <td ng-show="customer.isEditing"><input ng-model="customer.customerName"></td>
+                    <td ng-show="customer.isEditing"><input ng-model="customer.email"></td>
+                    <td ng-show="customer.isEditing"><input ng-model="customer.address"></td>
+                    <td ng-show="customer.isEditing"><input ng-model="customer.city"></td>
+                    <td ng-show="customer.isEditing"><input ng-model="customer.country"></td>
+                    <td ng-show="customer.isEditing">
+                        <button ng-click="updateCustomer(customer, $index); customer.isEditing=false;" class="btn btn-link">Save</button>
+                        <button ng-click="refresh();" class="btn btn-link">Cancel</button>
+                        <button ng-click="deleteCustomer(customer, $index)" class="btn btn-link">Delete</button>
+                    </td>
+
             </tr>
+            <tr>
+
+                <td><input ng-model="newcustomer.customerName"></td>
+                <td><input ng-model="newcustomer.email"></td>
+                <td><input ng-model="newcustomer.address"></td>
+                <td><input ng-model="newcustomer.city"></td>
+                <td><input ng-model="newcustomer.country"></td>
+                <td>
+                    <button ng-click="insertCustomer(newcustomer); customers.push(newcustomer); newcustomer={};" class="btn btn-link">Add</button>
+                    <button ng-click="refresh();" class="btn btn-link">Cancel</button>
+                </td>
+
+            </tr>
+
         </tbody>
         </table>
     </div>

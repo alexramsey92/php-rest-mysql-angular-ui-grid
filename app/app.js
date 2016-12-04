@@ -1,17 +1,17 @@
 var app = angular.module('myApp', ['ngRoute' , 'ngTouch', 'ui.grid']);
 app.factory("services", ['$http', function($http) {
+//   https://docs.angularjs.org/guide/providers
 
-  // add form validation to existing ui
-  // add create functionality to ui grid
-  // add update functionality to ui grid
-  // add delete functionality to ui grid
 
-  
+
+
   var serviceBase = 'services/'
     var obj = {};
     obj.getCustomers = function(){
         return $http.get(serviceBase + 'customers');
     }
+
+    //    query parameter/angular route of customer ID passed to $routeParams
     obj.getCustomer = function(customerID){
         return $http.get(serviceBase + 'customer?id=' + customerID);
     }
@@ -22,8 +22,8 @@ app.factory("services", ['$http', function($http) {
     });
 	};
 
-	obj.updateCustomer = function (id,customer) {
-	    return $http.post(serviceBase + 'updateCustomer', {id:id, customer:customer}).then(function (status) {
+	obj.updateCustomer = function (customer) {
+	    return $http.post(serviceBase + 'updateCustomer', {id:customer.customerNumber, customer:customer}).then(function (status) {
 	        return status.data;
 	    });
 	};
@@ -37,10 +37,38 @@ app.factory("services", ['$http', function($http) {
     return obj;   
 }]);
 
-app.controller('listCtrl', function ($scope, services) {
+app.controller('listCtrl', function ($scope, $rootScope, $location, $routeParams, services) {
+    $scope.newcustomer = {};
+
     services.getCustomers().then(function(data){
         $scope.customers = data.data;
     });
+
+      $scope.refresh = function() {
+            services.getCustomers().then(function(data){
+                $scope.customers = data.data;
+            });
+      }
+
+      $scope.isClean = function() {
+        return angular.equals(original, $scope.customer);
+      }
+
+      $scope.deleteCustomer = function(customer, $index) {
+        if(confirm("Are you sure to delete customer number: "+customer.customerNumber)==true)
+        services.deleteCustomer(customer.customerNumber).then(function($data){
+          $scope.customers.splice($index, 1);
+        },function($err){
+          
+        })
+      };
+
+      $scope.insertCustomer = services.insertCustomer;
+
+      $scope.updateCustomer = services.updateCustomer;
+
+    
+
 });
 
 app.controller('editCtrl', function ($scope, $rootScope, $location, $routeParams, services, customer) {
@@ -77,6 +105,12 @@ app.controller('uiGridCtrl', function ($scope, services) {
     services.getCustomers().then(function(data){
         $scope.customers = data.data;
     });
+
+
+  // add form validation to existing ui
+  // add create functionality to ui grid
+  // add update functionality to ui grid
+  // add delete functionality to ui grid
 });
 
 app.config(['$routeProvider',
@@ -108,8 +142,8 @@ app.config(['$routeProvider',
 
       //$locationProvider.html5Mode(true);
 }]);
-app.run(['$location', '$rootScope', function($location, $rootScope) {
-    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $rootScope.title = current.$$route.title;
-    });
-}]);
+// app.run(['$location', '$rootScope', function($location, $rootScope) {
+//     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+//         $rootScope.title = current.$$route.title;
+//     });
+// }]);

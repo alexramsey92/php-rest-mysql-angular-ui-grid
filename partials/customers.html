@@ -1,5 +1,5 @@
 <!-- Adapted by Al Ramsey for SWEN 651 -->
-
+<form name="form">
 
         <table class="table table-striped table-bordered responsive">
         <thead>
@@ -8,7 +8,7 @@
         <th>Address&nbsp;</th>
         <th>City&nbsp;</th>
         <th>Country&nbsp;</th>
-        <th>Action&nbsp;</th>
+        <th class="col-md-2">Action&nbsp;</th>
 
         </thead>
         <tbody>
@@ -22,8 +22,10 @@
                     <td ng-hide="customer.isEditing">{{customer.city}}</td>
                     <td ng-hide="customer.isEditing">{{customer.country}}</td>
                     <td ng-hide="customer.isEditing">
-                        <button ng-click="customer.isEditing=true" class="btn btn-link">Edit</button>
-                        <button ng-click="deleteCustomer(customer, $index)" class="btn btn-link">Delete</button>
+                        <div class="btn-group">
+                        <button ng-click="customer.isEditing=true" class="btn btn-warning">Edit</button>
+                        <button ng-click="deleteCustomer(customer, $index)" class="btn btn-danger">Delete</button>
+                        </div>
                     </td>
 
                     <td ng-show="customer.isEditing"><input ng-model="customer.customerName"></td>
@@ -31,24 +33,30 @@
                     <td ng-show="customer.isEditing"><input ng-model="customer.address"></td>
                     <td ng-show="customer.isEditing"><input ng-model="customer.city"></td>
                     <td ng-show="customer.isEditing"><input ng-model="customer.country"></td>
-                    <td ng-show="customer.isEditing">
-                        <button ng-click="updateCustomer(customer, $index); customer.isEditing=false;" class="btn btn-link">Save</button>
-                        <button ng-click="refresh();" class="btn btn-link">Cancel</button>
-                        <button ng-click="deleteCustomer(customer, $index)" class="btn btn-link">Delete</button>
+                    <td ng-show="customer.isEditing"><div class="btn-group">
+                        <button ng-click="updateCustomer(customer, $index); customer.isEditing=false;" class="btn btn-success">Save</button>
+                        <button ng-click="refresh();" class="btn btn-normal">Cancel</button>
+                        <button ng-click="deleteCustomer(customer, $index)" class="btn btn-danger">Delete</button></div>
                     </td>
 
             </tr>
             <tr>
-
-                <td><input ng-model="newcustomer.customerName"></td>
-                <td><input ng-model="newcustomer.email"></td>
-                <td><input ng-model="newcustomer.address"></td>
-                <td><input ng-model="newcustomer.city"></td>
-                <td><input ng-model="newcustomer.country"></td>
-                <td>
-                    <button ng-click="insertCustomer(newcustomer); customers.push(newcustomer); newcustomer={}; refresh();" class="btn btn-link">Add</button>
-                    <button ng-click="refresh();" class="btn btn-link">Cancel</button>
-                </td>
+                    <td><input ng-model="newcustomer.customerName" class= "form-control" placeholder="Enter Name"></td>
+                    <td>
+                        <input type="email" name="email" ng-model="newcustomer.email" class="form-control" placeholder="Enter Email" ng-pattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' required/>
+                            <div role="alert">
+                              <span class="error" ng-if="form.email.$error.required">
+                                Required!</span>
+                            </div>
+                    </td>
+                    <td><input ng-model="newcustomer.address" class= "form-control" placeholder="Enter Address"></td>
+                    <td><input ng-model="newcustomer.city" class= "form-control" placeholder="Enter City"></td>
+                    <td><input ng-model="newcustomer.country" class= "form-control" placeholder="Enter Country"></td>
+                    <td><div class="btn-group">
+                        <button ng-click="insertCustomer(newcustomer); customers.push(newcustomer); newcustomer={}; refresh();" class="btn btn-success" ng-disabled="form.$invalid">Add</button>
+                        <button ng-click="refresh();" class="btn btn-normal">Cancel</button>
+                    </div>
+                    </td>
 
             </tr>
 
@@ -60,3 +68,4 @@
             <h4>No customer records found. Enter record details and Click Add.</h4>
         </div>
     </div>
+</form>

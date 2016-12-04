@@ -4,13 +4,27 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-touch.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.2.9/ui-grid.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.2.9/ui-grid.min.js"></script>
-    <script src="app.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+    <script src="http://ui-grid.info/release/ui-grid.js"></script>
+    <link rel="stylesheet" href="http://ui-grid.info/release/ui-grid.css" type="text/css">
+    <link rel="stylesheet" href="main.css" type="text/css">
   </head>
   <body>
-    <div ng-controller="MainCtrl">
-      <div id="grid1" ui-grid="{ data: myData }" class="grid"></div>
-    </div>
+
+<div ng-controller="MainCtrl">
+  <strong>Data Length:</strong> {{ gridOptions.data.length | number }}
+  <br>
+  <strong>Last Cell Edited:</strong> {{msg.lastCellEdited}}
+  <br>
+  <div ui-grid="gridOptions" ui-grid-edit class="grid"></div>
+  <br>
+  <div><strong>Last file uploaded:</strong></div>
+  <div>{{lastFile}}</div>
+</div>
+
+
+    <script src="app.js"></script>
   </body>
 </html>

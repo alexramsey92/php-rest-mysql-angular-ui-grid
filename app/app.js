@@ -1,5 +1,12 @@
 var app = angular.module('myApp', ['ngRoute' , 'ngTouch', 'ui.grid']);
 app.factory("services", ['$http', function($http) {
+
+  // add form validation to existing ui
+  // add create functionality to ui grid
+  // add update functionality to ui grid
+  // add delete functionality to ui grid
+
+  
   var serviceBase = 'services/'
     var obj = {};
     obj.getCustomers = function(){

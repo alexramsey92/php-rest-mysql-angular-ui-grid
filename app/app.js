@@ -2,11 +2,9 @@ var app = angular.module('myApp', ['ngRoute' , 'ngTouch', 'ui.grid']);
 app.factory("services", ['$http', function($http) {
 //   https://docs.angularjs.org/guide/providers
 
-
-
-
-  var serviceBase = 'services/'
+    var serviceBase = 'services/'
     var obj = {};
+
     obj.getCustomers = function(){
         return $http.get(serviceBase + 'customers');
     }
@@ -20,6 +18,7 @@ app.factory("services", ['$http', function($http) {
     return $http.post(serviceBase + 'insertCustomer', customer).then(function (results) {
         return results;
     });
+    
 	};
 
 	obj.updateCustomer = function (customer) {
@@ -38,11 +37,12 @@ app.factory("services", ['$http', function($http) {
 }]);
 
 app.controller('listCtrl', function ($scope, $rootScope, $location, $routeParams, services) {
-    $scope.newcustomer = {};
 
-    services.getCustomers().then(function(data){
-        $scope.customers = data.data;
-    });
+      $scope.newcustomer = {};
+
+      services.getCustomers().then(function(data){
+          $scope.customers = data.data;
+      });
 
       $scope.refresh = function() {
             services.getCustomers().then(function(data){
@@ -67,8 +67,7 @@ app.controller('listCtrl', function ($scope, $rootScope, $location, $routeParams
 
       $scope.updateCustomer = services.updateCustomer;
 
-    
-
+  
 });
 
 app.controller('editCtrl', function ($scope, $rootScope, $location, $routeParams, services, customer) {
